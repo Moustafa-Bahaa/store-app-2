@@ -1,0 +1,91 @@
+.store-table {
+  border: solid 1px #DDEEEE;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font: normal 13px Arial, sans-serif;
+  width: 100%;
+  justify-content: center;
+}
+.store-table thead th {
+  background-color: #DDEFEF;
+  border: solid 1px #DDEEEE;
+  color: #336B6B;
+  padding: 10px;
+  text-align: center;
+  text-shadow: 1px 1px 1px #fff;
+}
+.store-table tbody td {
+  border: solid 1px #DDEEEE;
+  color: #333;
+  padding: 10px;
+  text-shadow: 1px 1px 1px #fff;
+  align-items: center;
+}
+
+  .btn-container{
+    display: flex;
+    justify-content: center;
+  }
+ 
+  #loading {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border: 3px solid #008060;
+    border-radius: 50%;
+    border-top-color: #008060;
+    animation: spin 1s ease-in-out infinite;
+    -webkit-animation: spin 1s ease-in-out infinite;
+    color: #008060;
+  }
+  @keyframes spin {
+    to { -webkit-transform: rotate(360deg); }
+  }
+  @-webkit-keyframes spin {
+    to { -webkit-transform: rotate(360deg); }
+  }
+
+  .form-container{
+    width: 80%;
+    margin: 50px auto;
+    border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+  
+  }
+  .responsive-grid {
+    display: grid;
+    grid-gap: 5rem;
+    row-gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  }
+  .field{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .form-input{
+    width: 100%;
+    padding: 12px 20px;
+    margin:  8px 0 ;
+    display: inline-block;
+    border: 1px solid #008060;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: medium;
+    color: #008060;
+  
+  }
+  .checkbox{
+  margin: 0.2em;
+  cursor: pointer;
+  padding: 0.2em;
+  cursor: pointer;
+  width: 1rem;
+  height: 1rem;
+  }
+  .active{
+    display: flex;
+    align-items: center;
+  }
+  
