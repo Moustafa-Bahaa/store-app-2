@@ -1,9 +1,9 @@
-import { StoresModel } from "../../../models/StoresModel"
-import "../../../styles/table.css"
+import { StoreModel } from "../../models/StoreModel"
+import "../../styles/table.css"
 
-export default function TableContent({stores , handleEdit, handleDelete }) {
+export default function TableContent({ stores, handleEdit, handleDelete }) {
 
-    
+
     return (
         <table className="store-table">
             <thead>
@@ -22,7 +22,7 @@ export default function TableContent({stores , handleEdit, handleDelete }) {
                     <th className='actions'>Actions</th>
                 </tr>
             </thead>
-            {stores.map((store :StoresModel) =>
+            {stores.map((store: StoreModel) =>
                 <tbody >
                     <td>{store.store_code}</td>
                     <td>{store.description_p}</td>
@@ -36,10 +36,10 @@ export default function TableContent({stores , handleEdit, handleDelete }) {
                     <td>{store.min_order}</td>
                     <td>{store.active_flag}</td>
                     <td>
-                        
+
                         <div className='btn-container'>
-                            <button onClick={()=>handleEdit(store)} className='edit btn' >Edit</button>
-                            <button onClick={()=>handleDelete(store)} className='delete btn'>Delete</button>
+                            <button onClick={() => handleEdit(store)} className='edit btn' >Edit</button>
+                            <button onClick={() => handleDelete(store)} className='delete btn'>Delete</button>
                         </div>
 
                     </td>

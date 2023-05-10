@@ -1,6 +1,6 @@
 import { RecordStatus } from '../enums/record-status.enum';
 import { StorePostModel } from '../models/StorePostModel';
-import { StoresModel } from '../models/StoresModel';
+import { StoresModel } from '../models/StoreModel';
 
 
 const DML_URL = "http://149.102.140.8:9090/ords/exsysexsysdba/pds_pkg/pds_stores_dml"

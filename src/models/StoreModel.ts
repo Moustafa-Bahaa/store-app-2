@@ -1,4 +1,4 @@
-export class StoresModel {
+export class StoreModel {
 
     store_code: string;
 

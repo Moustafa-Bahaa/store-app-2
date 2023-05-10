@@ -1,4 +1,4 @@
-import { StoresModel } from "./StoresModel";
+import { StoresModel } from "./StoreModel";
 
 export class StorePostModel {
 

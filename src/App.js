@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import './App.css';
-import Table from './components/table-container/table';
+import Table from './components/store';
 import "./styles/shared.css"
 function App() {
   return (
