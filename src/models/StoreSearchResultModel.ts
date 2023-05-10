@@ -1,7 +1,7 @@
-import { StoresModel } from "./StoreModel";
+import { StoreModel } from "./StoreModel";
 
 export class StoreSearchResultMoldel{
 
-    data : StoresModel[];
+    data : StoreModel[];
 
 }

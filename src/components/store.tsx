@@ -38,13 +38,13 @@ const Table = () => {
   const handleDelete = useCallback((storeModel: StoreModel) => {
     useDelete(storeModel).then(() => {
       fetchAllStores();
-    });
+    })
   }, [])
 
   const filterByActiveFlag = (activeFlag: 'Y' | 'N') => {
     useFilter(activeFlag).then((storeSearchResultMoldel: StoreSearchResultMoldel) => {
       setStores(storeSearchResultMoldel.data)
-    });
+    })
   }
 
   if (isLoading) {

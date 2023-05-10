@@ -45,7 +45,6 @@ const Header = ({ setIsAdding, filterByActiveFlag, setFilterOption, filterOption
                     </div>
 
 
-
                 </div>
             </div>
         </header>

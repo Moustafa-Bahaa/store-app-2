@@ -1,84 +1,54 @@
 import { RecordStatus } from '../enums/record-status.enum';
+import { StoreModel } from '../models/StoreModel';
 import { StorePostModel } from '../models/StorePostModel';
-import { StoresModel } from '../models/StoreModel';
-
 
 const DML_URL = "http://149.102.140.8:9090/ords/exsysexsysdba/pds_pkg/pds_stores_dml"
 
-
-
-export const useDelete = async (store: StoresModel): Promise<any> => {
-
-    store.record_status = RecordStatus.DELETE;
+export const useDelete = async (store: StoreModel): Promise<any> => {
     store.active_flag = "N";
-    let storePostModel: StorePostModel = new StorePostModel();
-    storePostModel.authorization = 4776317;
-    storePostModel.planguageid = 1;
-    storePostModel.data = [store];
-
     try {
-        const response = await fetch(DML_URL, {
-            method: "post",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(storePostModel)
-        });
-
-        const result = await response.json();
-        console.log("Success:", result);
+        const response = await fetch(DML_URL, createRequestBody(store, RecordStatus.DELETE));
+        return await response.json();
     } catch (error) {
-        console.error("Error:", error);
+        logError(error);
     }
-    return { store }
 }
 
-export const usePostAdd = async (store: StoresModel): Promise<any> => {
-
-    store.record_status = RecordStatus.NEW;
-    let storePostModel: StorePostModel = new StorePostModel();
-    storePostModel.authorization = 4776317;
-    storePostModel.planguageid = 1;
-    storePostModel.data = [store];
-
+export const usePostAdd = async (store: StoreModel): Promise<any> => {
     try {
-        const response = await fetch(DML_URL, {
-            method: "post",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(storePostModel)
-        });
-
-        const result = await response.json();
-        console.log("Success:", result);
+        const response = await fetch(DML_URL, createRequestBody(store, RecordStatus.NEW));
+        return await response.json();
     } catch (error) {
-        console.error("Error:", error);
+        logError(error);
     }
-    return { store }
-
 }
 
-export const usePostEdit = async (store: StoresModel): Promise<any> => {
-
-    store.record_status = RecordStatus.UPDATE;
+export const usePostEdit = async (store: StoreModel): Promise<any> => {
     store.active_flag = "Y";
+    try {
+        const response = await fetch(DML_URL, createRequestBody(store, RecordStatus.UPDATE));
+        return await response.json();
+    } catch (error) {
+        logError(error);
+    }
+}
+
+const createRequestBody = (store: StoreModel, recordStatus: string): RequestInit => {
+
+    store.record_status = recordStatus;
+
     let storePostModel: StorePostModel = new StorePostModel();
     storePostModel.authorization = 4776317;
     storePostModel.planguageid = 1;
+
     storePostModel.data = [store];
-    
-    try {
-        const response = await fetch(DML_URL, {
-            method: "post",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(storePostModel)
-        });
 
-        const result = await response.json();
-        console.log("Success:", result);
-    } catch (error) {
-        console.error("Error:", error);
-    }
-    return { store }
+    return {
+        method: "post",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(storePostModel)
+    };
 }
-
 
 const logError = (error: any) => {
     const err = error
@@ -86,16 +56,5 @@ const logError = (error: any) => {
     console.log(err.name)
 };
 
-const createNewPayload = (store: StoresModel, recordStatus: string): StorePostModel => {
-
-    store.record_status = recordStatus;
-
-    let storePostModel: StorePostModel = new StorePostModel();
-    storePostModel.authorization = 4776317;
-    storePostModel.planguageid = 1;
-    storePostModel.data = [store];
-
-    return storePostModel;
-}
 
 

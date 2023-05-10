@@ -1,4 +1,4 @@
-import { StoresModel } from "./StoreModel";
+import { StoreModel } from "./StoreModel";
 
 export class StorePostModel {
 
@@ -6,6 +6,6 @@ export class StorePostModel {
 
     planguageid: number;
 
-    data: StoresModel[];
+    data: StoreModel[];
 
 }
