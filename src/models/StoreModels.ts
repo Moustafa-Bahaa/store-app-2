@@ -34,3 +34,22 @@ export class StoreModel {
 
     
 }
+
+
+
+export class StorePostModel {
+
+    authorization: number;
+
+    planguageid: number;
+
+    data: StoreModel[];
+
+}
+
+
+export class StoreSearchResultMoldel{
+
+    data : StoreModel[];
+
+}

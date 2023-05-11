@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState, memo, useCallback } from 'react'
 import "../../styles/table.css"
 import { usePostEdit } from '../../hooks/use-post-hooks';
-import { StoreModel } from '../../models/StoreModel';
+import { StoreModel } from '../../models/StoreModels';
 
-const Edit = ({ selectedStore, setIsEditing }) => {
+const Edit = ({ setState, state }) => {
 
     useEffect(() => {
-        setEditStoreModel(selectedStore)
-    }, [selectedStore]);
+        setEditStoreModel(state.selectedStore)
+    }, [state.selectedStore]);
 
 
     const [checkBoxChecked, setCheckBoxChecked] = useState(true)
     const [editStoreModel, setEditStoreModel] = useState(new StoreModel());
 
-    const onChangeInputText = (e, name: string) => {
-        const val = (e.target && e.target.value) || '';
-        let _editStoreModel = { ...editStoreModel };
-        _editStoreModel[`${name}`] = val;
-        setEditStoreModel(_editStoreModel);
-    }
 
+    const handleOnChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        const val = (event.target && event.target.value) || '';
+        let _editStoreModel = { ...editStoreModel };
+        _editStoreModel[`${event.target.name}`] = val;
+        setEditStoreModel(_editStoreModel);
+    }, [editStoreModel])
 
     const onSaveCicked = () => {
         let _editStoreModel = { ...editStoreModel };
@@ -27,112 +27,153 @@ const Edit = ({ selectedStore, setIsEditing }) => {
         usePostEdit(_editStoreModel)
     };
 
+    const cancelEditPage = useCallback(() => {
+        setState({ ...state, isEditing: false })
+    }, [state.setIsEditing])
+
+    const handelActiveFlag = useCallback(() => {
+        setCheckBoxChecked(!checkBoxChecked)
+    }, [checkBoxChecked])
+
     return (
         <div>
             <form className='form-container'>
                 <h1>Edit Store</h1>
                 <div className='responsive-grid'>
 
-
                     <div className='field'>
                         <label htmlFor="description_p">English Name</label>
-                        <input required value={editStoreModel.description_p}
+                        <input
+                            name={"description_p"}
+                            required value={editStoreModel.description_p}
                             className='form-input'
                             type="text"
-                            onChange={(e) => { onChangeInputText(e, "description_p") }} />
+                            onChange={handleOnChange} />
                     </div>
-                    <div className='field'>
-                        <label htmlFor="firstName">Arabic Name</label>
-                        <input value={editStoreModel.description_s}
-                            className='form-input'
-                            type="text"
-                            onChange={(e) => { onChangeInputText(e, "description_s") }} />
-                    </div>
-                    <div className='field'>
-                        <label htmlFor="firstName">Phone</label>
-                        <input value={editStoreModel.phone}
-                            className='form-input'
-                            type="text"
-                            onChange={(e) => { onChangeInputText(e, "phone") }} />
 
-                    </div>
                     <div className='field'>
-                        <label htmlFor="firstName">Address</label>
-                        <input value={editStoreModel.address}
+                        <label htmlFor="description_s">Arabic Name</label>
+                        <input
+                            name={"description_s"}
+                            value={editStoreModel.description_s}
                             className='form-input'
                             type="text"
-                            onChange={(e) => { onChangeInputText(e, "address") }} />
+                            onChange={handleOnChange} />
+                    </div>
 
-                    </div>
                     <div className='field'>
-                        <label htmlFor="firstName">City</label>
-                        <input value={editStoreModel.city}
+                        <label htmlFor="phone">Phone</label>
+                        <input
+                            name={"phone"}
+                            value={editStoreModel.phone}
                             className='form-input'
                             type="text"
-                            onChange={(e) => { onChangeInputText(e, "city") }} />
+                            onChange={handleOnChange} />
                     </div>
+
                     <div className='field'>
-                        <label htmlFor="firstName">City Name</label>
-                        <input value={editStoreModel.city_name}
+                        <label htmlFor="address">Address</label>
+                        <input
+                            name={"address"}
+                            value={editStoreModel.address}
                             className='form-input'
                             type="text"
-                            onChange={(e) => { onChangeInputText(e, "city_name") }} />
+                            onChange={handleOnChange} />
                     </div>
+
                     <div className='field'>
-                        <label htmlFor="firstName">District</label>
-                        <input value={editStoreModel.district}
+                        <label htmlFor="city">City</label>
+                        <input
+                            name={"city"}
+                            value={editStoreModel.city}
                             className='form-input'
                             type="text"
-                            onChange={(e) => { onChangeInputText(e, "district") }} />
+                            onChange={handleOnChange} />
                     </div>
+
                     <div className='field'>
-                        <label htmlFor="firstName">District Name</label>
-                        <input value={editStoreModel.district_name}
+                        <label htmlFor="city_name">City Name</label>
+                        <input
+                            name={"city_name"}
+                            value={editStoreModel.city_name}
                             className='form-input'
                             type="text"
-                            onChange={(e) => { onChangeInputText(e, "district_name") }} />
+                            onChange={handleOnChange} />
                     </div>
+
                     <div className='field'>
-                        <label htmlFor="firstName">Email</label>
-                        <input value={editStoreModel.email}
+                        <label htmlFor="district">District</label>
+                        <input
+                            name={"district"}
+                            value={editStoreModel.district}
                             className='form-input'
                             type="text"
-                            onChange={(e) => { onChangeInputText(e, "email") }} />
+                            onChange={handleOnChange} />
                     </div>
+
                     <div className='field'>
-                        <label htmlFor="firstName">Governorate</label>
-                        <input value={editStoreModel.governorate}
+                        <label htmlFor="district_name">District Name</label>
+                        <input
+                            name={"district_name"}
+                            value={editStoreModel.district_name}
                             className='form-input'
                             type="text"
-                            onChange={(e) => { onChangeInputText(e, "governorate") }} />
+                            onChange={handleOnChange} />
                     </div>
+
+                    <div className='field'>
+                        <label htmlFor="email">Email</label>
+                        <input
+                            name={"email"}
+                            value={editStoreModel.email}
+                            className='form-input'
+                            type="text"
+                            onChange={handleOnChange} />
+                    </div>
+
+                    <div className='field'>
+                        <label htmlFor="governorate">Governorate</label>
+                        <input
+                            name={"governorate"}
+                            value={editStoreModel.governorate}
+                            className='form-input'
+                            type="text"
+                            onChange={handleOnChange} />
+                    </div>
+
                     <div
                         className='field'>
-                        <label htmlFor="firstName">Mobile</label>
-                        <input value={editStoreModel.mobile}
+                        <label htmlFor="mobile">Mobile</label>
+                        <input
+                            name={"mobile"}
+                            value={editStoreModel.mobile}
                             className='form-input'
                             type="text"
-                            onChange={(e) => { onChangeInputText(e, "mobile") }} />
+                            onChange={handleOnChange} />
                     </div>
+
                     <div className='field'>
-                        <label htmlFor="firstName">MinOrder</label>
-                        <input value={editStoreModel.min_order}
+                        <label htmlFor="min_order">MinOrder</label>
+                        <input
+                            name={"min_order"}
+                            value={editStoreModel.min_order}
                             className='form-input'
                             type="text"
-                            onChange={(e) => { onChangeInputText(e, "min_order") }} />
+                            onChange={handleOnChange} />
                     </div>
+
                     <div className='active'>
                         <input value={editStoreModel.active_flag}
                             className='checkbox'
                             type="checkbox"
-                            onChange={() => setCheckBoxChecked(!checkBoxChecked)} checked={checkBoxChecked} />
-                        <label htmlFor="firstName">Active</label>
+                            onChange={handelActiveFlag} checked={checkBoxChecked} />
+                        <label htmlFor="active_flag">Active</label>
                     </div>
                 </div>
 
                 <div style={{ marginTop: '30px' }}>
                     <button className='btn' onClick={onSaveCicked}>Update</button>
-                    <button className='btn' onClick={() => setIsEditing(false)}>Cancel</button>
+                    <button className='btn' onClick={cancelEditPage}>Cancel</button>
                 </div>
             </form>
 
@@ -140,4 +181,4 @@ const Edit = ({ selectedStore, setIsEditing }) => {
     )
 }
 
-export default Edit
+export default memo(Edit) 

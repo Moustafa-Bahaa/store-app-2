@@ -1,46 +1,50 @@
-import React from 'react'
-import Table from '../table-contetnt/table-content'
+import { memo, useCallback, useState } from 'react'
 
-const Header = ({ setIsAdding, filterByActiveFlag, setFilterOption, filterOption, fetchAllStores }) => {
+const Header = ({ setState, fetchAllStores, state, filterByActiveFlag }) => {
+
+    const openAddPage = useCallback(() => {
+        setState({ ...state, isAdding: true })
+    }, [])
+
+    const handleOnChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        const _filterOption = event.target.value;
+        if (_filterOption === 'all') {
+            fetchAllStores();
+        } else {
+            filterByActiveFlag(_filterOption);
+        }
+    }, [])
+
     return (
         <header>
             <h1>Store App</h1>
             <div className='header-container'>
-                <button onClick={() => setIsAdding(true)} className='btn table-btn'>Add Store</button>
+                <button onClick={openAddPage} className='btn table-btn'>Add Store</button>
                 <div className='filter-group'>
                     <div className='filter-option'>
                         <input className='radio-btn'
+                            type="radio"
                             value="all"
-                            onChange={(e) => {
-                                setFilterOption(e.target.value);
-                                fetchAllStores()
-                            }}
-                            checked={filterOption === 'all'}
-                            type="radio" id="html" name="all" />
-                        <label htmlFor="html">All</label>
+                            name="filter"
+                            onChange={handleOnChange}
+                            checked={state.filterOption === 'all'} />
+                        <label >All</label>
                     </div>
 
 
                     <div className='filter-option'>
-                        <input className='radio-btn' type="radio" id="html" name="Y" value="Y"
-                            onChange={(e) => {
-                                setFilterOption(e.target.value);
-                                filterByActiveFlag('Y')
-                            }}
-                            checked={filterOption === 'Y'}
-                        />
-                        <label htmlFor="html">Active</label>
+                        <input className='radio-btn' type="radio" value="Y" name="filter"
+
+                            onChange={handleOnChange}
+                            checked={state.filterOption === 'Y'} />
+                        <label >Active</label>
                     </div>
 
 
                     <div className='filter-option'>
-                        <input className='radio-btn' type="radio" id="html" name="N" value="N"
-                            onChange={(e) => {
-                                setFilterOption(e.target.value);
-                                filterByActiveFlag('N')
-                            }}
-                            checked={filterOption === 'N'}
-                        />
+                        <input className='radio-btn' value="N" type="radio" name="filter"
+                            onChange={handleOnChange}
+                            checked={state.filterOption === 'N'} />
                         <label htmlFor="html">In Active</label>
                     </div>
 
@@ -51,4 +55,4 @@ const Header = ({ setIsAdding, filterByActiveFlag, setFilterOption, filterOption
     )
 }
 
-export default Header
+export default memo(Header)

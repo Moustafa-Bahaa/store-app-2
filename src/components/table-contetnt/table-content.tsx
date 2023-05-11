@@ -1,7 +1,7 @@
-import { StoreModel } from "../../models/StoreModel"
+import { StoreModel } from "../../models/StoreModels"
 import "../../styles/table.css"
 
-export default function TableContent({ stores, handleEdit, handleDelete }) {
+export default function TableContent({ state, handleEdit, handleDelete }) {
 
 
     return (
@@ -22,8 +22,8 @@ export default function TableContent({ stores, handleEdit, handleDelete }) {
                     <th className='actions'>Actions</th>
                 </tr>
             </thead>
-            {stores.map((store: StoreModel) =>
-                <tbody >
+            {state.stores.map((store: StoreModel) =>
+                <tbody key={store.store_code}>
                     <td>{store.store_code}</td>
                     <td>{store.description_p}</td>
                     <td>{store.description_s}</td>

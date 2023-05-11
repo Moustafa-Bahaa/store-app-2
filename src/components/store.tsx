@@ -1,38 +1,31 @@
-import React, { useLayoutEffect, useState, useCallback } from 'react'
-import { StoreSearchResultMoldel } from '../models/StoreSearchResultModel';
+import { useLayoutEffect, useState, useCallback, memo } from 'react'
 import { useDelete } from '../hooks/use-post-hooks';
 import Header from './table-header/table-header';
 import Add from './add/Add';
 import Edit from './edit/Edit';
-import { StoreModel } from '../models/StoreModel';
+import { StoreModel, StoreSearchResultMoldel } from '../models/StoreModels';
 import TableContent from './table-contetnt/table-content';
 import { useFetch } from '../hooks/use-fetch-hook';
 import { useFilter } from '../hooks/use-filter-hook';
+import { StoreStateModel } from '../models/StoreStatemodel';
 
 
-const Table = () => {
-  const [stores, setStores] = useState([]);
-  const [selectedStore, setSelectedStore] = useState(null);
-  const [isLoading, setLoading] = useState(true);
-  const [isAdding, setIsAdding] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [filterOption, setFilterOption] = useState('all');
+const Store = () => {
 
-  const fetchAllStores = useCallback(() => {
-    useFetch().then((storeSearchResultMoldel: StoreSearchResultMoldel) => {
-      setStores(storeSearchResultMoldel.data)
-      setLoading(false);
-    })
-  }, [stores, setLoading, setIsAdding, setIsEditing])
+  const [state, setState] = useState(new StoreStateModel())
 
   useLayoutEffect(() => {
     fetchAllStores();
   }, []);
 
+  const fetchAllStores = useCallback(() => {
+    useFetch().then((storeSearchResultMoldel: StoreSearchResultMoldel) => {
+      setState({ ...state, stores: storeSearchResultMoldel.data, isLoading: false, filterOption: 'all' })
+    })
+  }, [])
 
   const handleEdit = (store: StoreModel) => {
-    setSelectedStore(store);
-    setIsEditing(true);
+    setState({ ...state, selectedStore: store, isEditing: true })
   }
 
   const handleDelete = useCallback((storeModel: StoreModel) => {
@@ -43,33 +36,33 @@ const Table = () => {
 
   const filterByActiveFlag = (activeFlag: 'Y' | 'N') => {
     useFilter(activeFlag).then((storeSearchResultMoldel: StoreSearchResultMoldel) => {
-      setStores(storeSearchResultMoldel.data)
+      setState({ ...state, stores: storeSearchResultMoldel.data , filterOption: activeFlag})
     })
   }
 
-  if (isLoading) {
+  if (state.isLoading) {
     return <div id="loading">|</div>
   }
+  
   return (
     <div>
-      {!isAdding && !isEditing && (
+      {!state.isAdding && !state.isEditing && (
         <div className='table-container'>
-          <Header setIsAdding={setIsAdding} filterByActiveFlag={filterByActiveFlag} setFilterOption={setFilterOption} filterOption={filterOption} fetchAllStores={fetchAllStores} />
-
-          <TableContent stores={stores} handleEdit={handleEdit} handleDelete={handleDelete} />
+          <Header state={state} setState={setState} fetchAllStores={fetchAllStores} filterByActiveFlag={filterByActiveFlag} />
+          <TableContent state={state} handleEdit={handleEdit} handleDelete={handleDelete} />
         </div>
       )}
 
-      {isAdding && (
-        <Add setIsAdding={setIsAdding} />
+      {state.isAdding && (
+        <Add setState={setState} state={state} />
       )}
 
-      {isEditing && (
-        <Edit selectedStore={selectedStore} setIsEditing={setIsEditing} />
+      {state.isEditing && (
+        <Edit state={state} setState={setState} />
       )}
 
     </div>
   )
 }
 
-export default Table
+export default memo(Store)
